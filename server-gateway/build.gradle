@@ -1,0 +1,13 @@
+apply plugin: 'com.github.johnrengelman.shadow'
+
+shadowJar {
+    classifier = 'fat'
+    manifest {
+        attributes 'Main-Verticle': 'GatewayMain.groovy'
+    }
+    mergeServiceFiles {
+        include 'META-INF/services/io.vertx.core.spi.VerticleFactory'
+    }
+
+    mergeGroovyExtensionModules()
+}
