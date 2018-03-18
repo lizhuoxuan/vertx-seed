@@ -328,7 +328,6 @@ class GatewayMain extends AbstractVerticle {
 //                        if (request.query()?.indexOf("msid=") > 0) { //替换所有msid参数
 //                            uri = uri.replace("msid=", "superstar=")
 //                        }
-                        response
                     } else {
                         err()
                         return
