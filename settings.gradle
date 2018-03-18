@@ -1,0 +1,8 @@
+rootProject.name = 'vertx-seed'
+include 'server-core'
+include 'server-auth'
+include 'server-gateway'
+
+include 'lib-db'
+include 'lib-tool'
+include 'lib-vertx-plus'

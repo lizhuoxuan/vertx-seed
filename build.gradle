@@ -1,0 +1,80 @@
+allprojects {
+    group 'vertx-seed'
+    version '1.0-SNAPSHOT'
+}
+
+subprojects { subproject ->
+    ext {
+        vertxVersion = '3.5.1'
+        groovyVersion = '2.4.13'
+        isServer = subproject.name.startsWith('server')
+        isLib = subproject.name.startsWith('lib')
+        isDB = subproject.name.endsWith('db')
+        isTool = subproject.name.endsWith('tool')
+        isVertxPlus = subproject.name.startsWith('lib-vertx-plus')
+    }
+
+    apply plugin: 'groovy'
+
+    if (!isLib) {
+        apply plugin: 'application'
+
+        buildscript {
+            repositories {
+                jcenter()
+            }
+            dependencies {
+                classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
+            }
+        }
+
+        mainClassName = 'io.vertx.core.Launcher'
+
+        processResources {
+            from 'src/main/groovy'
+        }
+
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+
+
+    sourceCompatibility = '1.8'
+
+    dependencies {
+
+//    compile fileTree(dir: 'libs', include: '*.jar')
+        compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
+
+        compile "io.vertx:vertx-core:$vertxVersion"
+        compile "io.vertx:vertx-lang-groovy:$vertxVersion"
+
+        compile "joda-time:joda-time:2.9.9"
+
+        if (isVertxPlus) {
+            compile project(':lib-db')
+        }
+
+        if (isServer) {
+            compile project(':lib-vertx-plus')
+            compile "io.vertx:vertx-redis-client:$vertxVersion"
+        }
+
+        if (isDB) {
+            compile project(':lib-tool')
+            compile group: 'com.alibaba', name: 'druid', version: '1.1.6'
+            compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
+            compile group: 'redis.clients', name: 'jedis', version: '2.9.0'
+        }
+
+        if (isTool) {
+            compile "io.vertx:vertx-web:$vertxVersion"
+            compile "io.vertx:vertx-web-client:$vertxVersion"
+        }
+
+    }
+
+}
