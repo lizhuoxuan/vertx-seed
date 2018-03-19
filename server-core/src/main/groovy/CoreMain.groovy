@@ -72,5 +72,14 @@ class CoreMain extends AbstractVerticle {
             }
         })
 
+        if (!CommonTool.isDebug) {
+            vertx.setPeriodic(60000 * 5, {
+                //指定路径
+                def file = new File("/seed/core/out.log")
+                if (file.length() > 31457280) {
+                    file.write("")
+                }
+            })
+        }
     }
 }
