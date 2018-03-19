@@ -3,7 +3,6 @@ package com.zynet.brush.core
 import com.zynet.brush.tool.CommonTool
 import io.vertx.core.Vertx
 import io.vertx.ext.web.AruisRouter
-import io.vertx.ext.web.client.WebClient
 
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.jar.JarFile
@@ -22,9 +21,9 @@ class RouterCenter {
      * @param vertx
      * @return
      */
-    static def centerRouter(AruisRouter router, Vertx vertx) {
+    static def centerRouter(AruisRouter router) {
 
-        RouterFactory routerFactory = new RouterFactory(vertx, router)
+        RouterFactory routerFactory = new RouterFactory(router)
 
         //动态加载router
         def clazz = RouterBasic.class

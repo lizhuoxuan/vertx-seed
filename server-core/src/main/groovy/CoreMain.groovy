@@ -54,7 +54,7 @@ class CoreMain extends AbstractVerticle {
 //        }
 
         //从这里路由到其他业务
-        RouterCenter.centerRouter(router, vertx)
+        RouterCenter.centerRouter(router)
 
         def staticHandler = StaticHandler.create()
         staticHandler.setAllowRootFileSystemAccess(true)
