@@ -31,16 +31,13 @@ class DBFactory {
 
     static Jedis redis() {
         String rsHost = '127.0.0.1'
-        int rsPort = 16379
-        String rsPassword = 'brush008'
+        int rsPort = 6379
+        String rsPassword = '008'
 
         if (CommonTool.isDebug) {
             rsHost = "127.0.0.1"
             rsPort = 6379
             rsPassword = null
-            if (CommonTool.isMac()) {
-                rsHost = "127.0.0.1"
-            }
         }
 
         if (_redis == null)
