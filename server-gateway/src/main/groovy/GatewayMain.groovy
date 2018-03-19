@@ -270,6 +270,9 @@ class GatewayMain extends AbstractVerticle {
     }
 
     def addr() {
+        if (CommonTool.isDebug) {
+            return "d:/work/seed/dist"
+        }
         return "/seed/dist"
     }
 
@@ -295,9 +298,7 @@ class GatewayMain extends AbstractVerticle {
 
             String ip = request.remoteAddress().host()
 
-            if (uri.indexOf('/api/auth/login') == 0) {//登录
-                headerPlus.token = CommonTool.buildID()
-            } else if (uri.indexOf('/api/core/across') == 0) {
+            if (uri.indexOf('/api/core/across') == 0 || uri.indexOf('/api/auth/login') == 0 ) {
 
             } else {//验证session里面的token
                 def headers = request.headers()
