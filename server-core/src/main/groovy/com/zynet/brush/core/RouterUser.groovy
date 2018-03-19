@@ -11,9 +11,9 @@ class RouterUser extends RouterBasic {
     }
 
     def queryUsers(String url) {
-        router.get(url).dbBlockingHandler({ rc ->
-            def result = rc.db.rows("SELECT * from users limit 1")
-            rc.response().end(result.toString())
+        router.get(url).dbBlockingHandler({ routingContext ->
+            def result = routingContext.db.rows("SELECT * from users limit 1")
+            routingContext.response().end(result.toString())
         })
     }
 }
