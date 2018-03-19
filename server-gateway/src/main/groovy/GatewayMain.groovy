@@ -78,7 +78,11 @@ class GatewayMain extends AbstractVerticle {
 
     @Override
     void stop() throws Exception {
-        jedis.close()
+        try {
+            jedis.close()
+        } catch (e) {
+
+        }
         super.stop()
     }
 
