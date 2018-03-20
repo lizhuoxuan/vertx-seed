@@ -1,7 +1,6 @@
 package com.zynet.brush.core
 
 import com.zynet.brush.tool.CommonTool
-import io.vertx.core.Vertx
 import io.vertx.ext.web.AruisRouter
 
 import java.util.concurrent.CopyOnWriteArrayList
