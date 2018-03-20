@@ -56,14 +56,6 @@ class CoreMain extends AbstractVerticle {
         //从这里路由到其他业务
         RouterCenter.centerRouter(router)
 
-        def staticHandler = StaticHandler.create()
-        staticHandler.setAllowRootFileSystemAccess(true)
-        staticHandler.setWebRoot(addr)
-        staticHandler.setCachingEnabled(true)
-        staticHandler.setMaxAgeSeconds(86400 * 1)
-
-        router.route().handler(staticHandler)
-
         server.requestHandler(router.&accept).listen(port, { ar ->
             if (ar.succeeded()) {
                 log.info('服务启动成功。')
