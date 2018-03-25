@@ -13,9 +13,9 @@ class StarDataSource extends DruidDataSource {
     static log = LoggerFactory.getLogger(this.class)
 
     String dbName = 'radius'
-    String dbServer = '47.104.5.42:3306'
-    String dbUser = "zydl"
-    String dbPassword = "zydlpwd741"
+    String dbServer = '127.0.0.1:3306'
+    String dbUser = "root"
+    String dbPassword = "root"
     String dbType = "mysql"
 
     private StarDataSource() {
@@ -23,9 +23,6 @@ class StarDataSource extends DruidDataSource {
             dbServer = '192.168.1.240:3306'
             dbUser = 'root'
             dbPassword = 'root'
-//            dbServer = "47.104.5.42:3306"
-//            dbUser = "zydl"
-//            dbPassword = "zydlpwd741"
         }
 
         log.info("$dbName datasource init.")

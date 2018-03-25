@@ -82,7 +82,11 @@ class GatewayMain extends AbstractVerticle {
 
     @Override
     void stop() throws Exception {
-        jedis.close()
+        try {
+            jedis.close()
+        } catch (e) {
+
+        }
         super.stop()
     }
 
@@ -270,6 +274,9 @@ class GatewayMain extends AbstractVerticle {
     }
 
     def addr() {
+        if (CommonTool.isDebug) {
+            return "d:/work/seed/dist"
+        }
         return "/seed/dist"
     }
 
@@ -295,22 +302,8 @@ class GatewayMain extends AbstractVerticle {
 
             String ip = request.remoteAddress().host()
 
-            if (uri.indexOf('/api/auth/login') == 0) {//登录
-                headerPlus.token = CommonTool.buildID()
-            } else if (uri.indexOf('/api/core/across') == 0) {
-//                    uri = uri.replace("/core", "")
-//                if (uri.indexOf('/api/core/across') == 0) {
-//                    if (uri.contains('?')) {
-//                        uri += "&ip=${ip}"
-//                    } else {
-//                        uri += "?ip=${ip}"
-//                    }
-//                }
-//                if (uri.contains('?')) {
-//                    uri += "&remoteip=${ip}"
-//                } else {
-//                    uri += "?remoteip=${ip}"
-//                }
+            if (uri.indexOf('/api/core/across') == 0 || uri.indexOf('/api/auth/login') == 0 ) {
+
             } else {//验证session里面的token
                 def headers = request.headers()
                 def token = headers.get('Authorization')
@@ -329,9 +322,14 @@ class GatewayMain extends AbstractVerticle {
                     }
 
                     if (user) {
-//                        if (request.query()?.indexOf("msid=") > 0) { //替换所有msid参数
-//                            uri = uri.replace("msid=", "superstar=")
-//                        }
+                        if (request.query()?.indexOf("msid=") > 0) { //替换所有msid参数
+                            uri = uri.replace("msid=", "superstar=")
+                        }
+
+                        if (request.query() == null)
+                            uri += '?'
+
+                        uri += "&msid=${user}"
                     } else {
                         err()
                         return
