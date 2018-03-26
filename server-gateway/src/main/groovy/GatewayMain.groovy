@@ -48,7 +48,11 @@ class GatewayMain extends AbstractVerticle {
         def port = System.getProperty('port') ? Integer.parseInt(System.getProperty('port')) : defaultPort
         def inport = System.getProperty('inport') ? Integer.parseInt(System.getProperty('inport')) : defaultInPort
 
-        HttpServer server = vertx.createHttpServer()
+        def options = [
+                compressionSupported: true
+        ]
+
+        HttpServer server = vertx.createHttpServer(options)
 
         def router = Router.router(vertx)
 
