@@ -298,16 +298,22 @@ class AruiSQL extends Sql {
         if (dbTables.containsKey(dbHash)) {
             return dbTables[dbHash]
         } else {
-            _log.info("init database tables and columns")
+            LOG.info("init database tables and columns")
             def tables = [:]
-            this.rows("select tablename from pg_tables where schemaname='public';".toString()).each {
-                String _table = it.tablename
-                def cols = []
-                this.rows("select column_name from information_schema.columns where table_schema='public' and table_name='$_table';".toString()).each { t ->
-                    cols << t.column_name
-                }
-                tables[_table] = cols
-            }
+
+
+            this.eachRow("""
+SELECT
+  table_schema,
+  table_name,
+  array_agg(column_name::VARCHAR) AS colarray
+FROM information_schema.columns cols
+  INNER JOIN pg_stat_user_tables tabs ON tabs.schemaname = cols.table_schema AND tabs.relname = cols.table_name
+GROUP BY table_schema, table_name
+""", {
+                tables[it.table_name] = it.colarray.getArray()
+
+            })
 
             dbTables[dbHash] = tables
 
